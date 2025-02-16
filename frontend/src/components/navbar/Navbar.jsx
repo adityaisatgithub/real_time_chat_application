@@ -8,10 +8,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setUserName(""); // Clear user data
-    localStorage.removeItem("token"); // Clear token
-    localStorage.removeItem("user"); // Clear user info
-    navigate("/login"); // Redirect to login page
+    setUserName("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
   };
 
   return (
