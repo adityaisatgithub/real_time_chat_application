@@ -42,7 +42,7 @@ const Login = () => {
       } else {
         throw new Error("Invalid user data");
       }
-      navigate("/"); // Redirect to Home Page
+      navigate("/");
     } catch (err) {
       console.log(err);
       setError(err.response?.data?.message || "Invalid credentials");
