@@ -1,11 +1,14 @@
-import { Container, Typography } from "@mui/material";
+import Navbar from "../navbar/Navbar";
 
-export default function Home() {
+const Home = () => {
+  const user = JSON.parse(localStorage.getItem("user")) || { name: "Guest" };
+
   return (
-    <Container>
-      <Typography variant="h3" align="center" gutterBottom>
-        Home Page
-      </Typography>
-    </Container>
+    <div>
+      <Navbar user={user} />
+      <h1>Welcome to the Real-Time Chat Application</h1>
+    </div>
   );
-}
+};
+
+export default Home;

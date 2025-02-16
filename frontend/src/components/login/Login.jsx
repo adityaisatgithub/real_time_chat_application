@@ -28,6 +28,11 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:5001/api/login", user);
       localStorage.setItem("token", res.data.token);
+      if (res.data.user && typeof res.data.user === "object") {
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save user info
+      } else {
+        throw new Error("Invalid user data");
+      }
       navigate("/"); // Redirect to Home Page
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials");
@@ -78,7 +83,7 @@ const Login = () => {
             </Grid>
           </form>
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
           </Typography>
         </CardContent>
       </Card>
