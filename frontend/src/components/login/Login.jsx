@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   TextField,
   Button,
@@ -11,11 +11,14 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../../contexts/UserContext";
+import socket from "../chat/socket";
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUserName } = useContext(UserContext);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -27,14 +30,21 @@ const Login = () => {
 
     try {
       const res = await axios.post("http://localhost:5001/api/login", user);
+      console.log(res.data);
       localStorage.setItem("token", res.data.token);
-      if (res.data.user && typeof res.data.user === "object") {
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save user info
+      if (res.data.success && res.data.success === true) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ name: res.data.name, userId: res.data.userId })
+        ); // Save user info
+        setUserName(res.data.name); // Set userName in context
+        socket.emit("registerUser", res.data.userId);
       } else {
         throw new Error("Invalid user data");
       }
       navigate("/"); // Redirect to Home Page
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Invalid credentials");
     }
   };

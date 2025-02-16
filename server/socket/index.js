@@ -22,6 +22,24 @@ const initializeSocket = (server) => {
         });
     });
 
+    // Handle private message sending
+    io.on("sendMessage", ({ senderId, receiverId, message }) => {
+        const receiverSocketId = users[receiverId]; // Get receiver's socket ID
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("receiveMessage", { senderId, message });
+        }
+    });
+
+    // Handle user disconnection
+    io.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
+        for (const userId in users) {
+            if (users[userId] === socket.id) {
+                delete users[userId];
+            }
+        }
+    });
+
     return io;
 };
 

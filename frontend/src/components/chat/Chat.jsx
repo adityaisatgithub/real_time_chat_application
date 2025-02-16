@@ -4,6 +4,7 @@ import {
   TextField,
   Button,
   Typography,
+  Container,
   Paper,
   List,
   ListItem,
@@ -14,12 +15,16 @@ import socket from "./socket"; // Import the socket instance
 
 const Chat = () => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user")) || { name: "Guest" };
+  const user = JSON.parse(localStorage.getItem("user")) || {
+    name: "Guest",
+    userId: null,
+  };
+  const [receiverId, setReceiverId] = useState("");
+  const [chat, setChat] = useState([]);
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+      setChat((prevChat) => [...prevChat, data]);
     });
 
     return () => {
@@ -28,42 +33,61 @@ const Chat = () => {
   }, []);
 
   const sendMessage = () => {
-    if (message.trim()) {
-      socket.emit("send_message", message);
-      setMessage("");
+    if (user.userId && receiverId && message) {
+      // Send message to the server
+      socket.emit("send_message", {
+        senderId: user.userId,
+        receiverId,
+        message,
+      });
+
+      setChat([...chat, { sender: "You", message }]); // Add to local chat
+      setMessage(""); // Clear input
     }
   };
 
   return (
-    <div>
-      <Navbar user={user} />
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Chat Room
+    <Container maxWidth="md">
+      <Navbar />
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Chat
         </Typography>
-        <Paper sx={{ p: 2, mb: 2, maxHeight: 400, overflow: "auto" }}>
-          <List>
-            {messages.map((msg, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={msg} />
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Paper sx={{ p: 2, mb: 2 }}>
           <TextField
             fullWidth
-            label="Type a message..."
+            label="Receiver ID"
+            variant="outlined"
+            value={receiverId}
+            onChange={(e) => setReceiverId(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Message"
+            variant="outlined"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            sx={{ mb: 2 }}
           />
           <Button variant="contained" color="primary" onClick={sendMessage}>
             Send
           </Button>
-        </Box>
+        </Paper>
+        <Paper sx={{ p: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            Chat History
+          </Typography>
+          <List>
+            {chat.map((msg, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={`${msg.sender}: ${msg.message}`} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
       </Box>
-    </div>
+    </Container>
   );
 };
 
