@@ -18,11 +18,8 @@ const Navbar = () => {
     <AppBar position="static">
       <Toolbar>
         <Box sx={{ flexGrow: 1, display: "flex", gap: 2 }}>
-          <Button color="inherit" component={Link} to="/">
-            Home
-          </Button>
           <Button color="inherit" component={Link} to="/chat">
-            Chat
+            Chit Chat
           </Button>
         </Box>
         {userName ? (
