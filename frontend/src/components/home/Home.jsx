@@ -70,7 +70,7 @@ const Home = () => {
             Ready for a chat that&apos;s as private as it is fun? Here, we believe in open conversations and close connections, but we also believe in keeping your secrets, well, secret!
           </Typography>
           <Typography variant="body1" paragraph>
-            Every word you type is encrypted end-to-end, so the only people who will ever know what you said are you and the person you&apos;re chatting with. No prying eyes, no spying. Just pure, safe, and totally private conversations. It's your chat — your rules.
+            Every word you type is encrypted end-to-end, so the only people who will ever know what you said are you and the person you&apos;re chatting with. No prying eyes, no spying. Just pure, safe, and totally private conversations. It&apos;s your chat — your rules.
           </Typography>
           <Typography variant="body1" paragraph>
             Chat, connect, and enjoy a safe space where privacy is always a priority.

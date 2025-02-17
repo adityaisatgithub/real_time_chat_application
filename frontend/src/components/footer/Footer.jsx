@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 import CopyrightIcon from '@mui/icons-material/Copyright';
 import './Footer.css';
