@@ -1,0 +1,29 @@
+.footer {
+  margin-top: auto;
+  padding: 20px;
+  text-align: center;;
+  /* Remove background color */
+}
+
+.footer-text {
+  color: inherit; /* Inherit text color from parent */
+}
+
+.footer-dark {
+  background-color: inherit; /* Dark background color */
+  color: white; /* White text color */
+}
+
+.footer-light {
+  background-color: inherit; /* Light background color */
+  color: black; /* Black text color */
+}
+
+.hotpink {
+  color: hotpink;
+}
+
+.red-bold {
+  color: red;
+  font-weight: bold;
+}

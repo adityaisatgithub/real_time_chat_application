@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Box, IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import appIcon from '../../assets/appIcon.png'; // Import the PNG image
 
 const Navbar = () => {
   const { userName, setUserName } = useContext(UserContext);
@@ -17,8 +18,11 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Box sx={{ flexGrow: 1, display: "flex", gap: 2 }}>
-          <Button color="inherit" component={Link} to="/">
+        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+          <IconButton edge="start" color="inherit" aria-label="app icon">
+            <img src={appIcon} alt="App Icon" style={{ width: 29, height: 29 }} /> {/* Use the PNG image */}
+          </IconButton>
+          <Button color="inherit" component={Link} to="/home">
             Chit Chat
           </Button>
         </Box>
